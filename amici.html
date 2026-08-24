@@ -3,21 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read Google Sheets Data</title>
+    <title>Amici</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            nav ul li {
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <script>
-        // URL del foglio di Google Sheets (assumendo l'ID della tabella sia 0)
-        const googleSheetUrl = "https://docs.google.com/spreadsheets/d/1AbCDeFGhIJKL1234567890/gviz/tq?tqx=out:json";
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="amici.html">Amici</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        fetch(googleSheetUrl)
+    <main>
+        <h1>Lista degli Amici</h1>
+        <p>Ecco una lista di amici caricata da Google Sheets:</p>
+
+        <!-- QUI verranno inseriti i dati -->
+        <ul id="lista-amici"></ul>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 My Simple Website</p>
+    </footer>
+
+    <!-- SCRIPT PER LEGGERE GOOGLE SHEETS -->
+    <script>
+        const sheetID = "1RrRTsOipfcbUtwS78FyqnTkNhcEdJ4DxMLwrXIQ38DI"; 
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+
+        fetch(url)
             .then(res => res.text())
             .then(text => {
-                // Rimuovi la parte iniziale del JSON generato da Google Sheets
                 const json = JSON.parse(text.substring(47, text.length - 2));
-                console.log(json.table.rows);
+                const rows = json.table.rows;
+
+                const ul = document.getElementById("lista-amici");
+                ul.innerHTML = ""; // pulizia
+
+                rows.forEach(r => {
+                    const nome = r.c[0]?.v; // prima colonna
+                    if (nome) {
+                        const li = document.createElement("li");
+                        li.textContent = nome;
+                        ul.appendChild(li);
+                    }
+                });
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(err => console.error("Errore nel caricamento:", err));
     </script>
+
 </body>
 </html>
