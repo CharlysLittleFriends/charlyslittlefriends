@@ -1,68 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amici</title>
     <link rel="stylesheet" href="styles.css">
+
     <style>
-        /* Responsive styles */
-        @media (max-width: 600px) {
-            nav ul li {
-                display: block;
-                margin-bottom: 10px;
-            }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .filters {
+            margin: 20px 0;
+        }
+        .filters select {
+            padding: 8px;
+            margin-right: 10px;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="amici.html">Amici</a></li>
-                <li><a href="contatti.html">Contatti</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="amici.html">Amici</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-        <h1>Lista degli Amici</h1>
-        <p>Ecco una lista di amici caricata da Google Sheets:</p>
+<main>
+    <h1>Lista degli Amici</h1>
+    <p>Dati caricati automaticamente da Google Sheets:</p>
 
-        <!-- QUI verranno inseriti i dati -->
-        <ul id="lista-amici"></ul>
-    </main>
+    <!-- FILTRI -->
+    <div class="filters">
+        <select id="filter-type">
+            <option value="">Filtra per Type</option>
+        </select>
 
-    <footer>
-        <p>&copy; 2023 My Simple Website</p>
-    </footer>
+        <select id="filter-dim">
+            <option value="">Filtra per Dimensions</option>
+        </select>
 
-    <!-- SCRIPT PER LEGGERE GOOGLE SHEETS -->
-    <script>
-        const sheetID = "1RrRTsOipfcbUtwS78FyqnTkNhcEdJ4DxMLwrXIQ38DI"; 
-        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+        <select id="filter-colors">
+            <option value="">Filtra per Colors</option>
+        </select>
+    </div>
 
-        fetch(url)
-            .then(res => res.text())
-            .then(text => {
-                const json = JSON.parse(text.substring(47, text.length - 2));
-                const rows = json.table.rows;
+    <!-- TABELLA -->
+    <table id="tabella-amici">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Type</th>
+                <th>Dimensions</th>
+                <th>Colors</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>
 
-                const ul = document.getElementById("lista-amici");
-                ul.innerHTML = ""; // pulizia
+<footer>
+    <p>&copy; 2023 My Simple Website</p>
+</footer>
 
-                rows.forEach(r => {
-                    const nome = r.c[0]?.v; // prima colonna
-                    if (nome) {
-                        const li = document.createElement("li");
-                        li.textContent = nome;
-                        ul.appendChild(li);
-                    }
-                });
-            })
-            .catch(err => console.error("Errore nel caricamento:", err));
-    </script>
+<script>
+    const sheetID = "1RrRTsOipfcbUtwS78FyqnTkNhcEdJ4DxMLwrXIQ38DI";
+    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+
+    let allRows = [];
+
+    fetch(url)
+        .then(res => res.text())
+        .then(text => {
+            const json = JSON.parse(text.substring(47, text.length - 2));
+            allRows = json.table.rows;
+
+            populateFilters();
+            renderTable(allRows);
+        });
+
+    function populateFilters() {
+        const typeSet = new Set();
+        const dimSet = new Set();
+        const colorSet = new Set();
+
+        allRows.forEach(r => {
+            typeSet.add(r.c[0]?.v);
+            dimSet.add(r.c[1]?.v);
+            colorSet.add(r.c[2]?.v);
+        });
+
+        fillSelect("filter-type", typeSet);
+        fillSelect("filter-dim", dimSet);
+        fillSelect("filter-colors", colorSet);
+
+        document.getElementById("filter-type").onchange = applyFilters;
+        document.getElementById("filter-dim").onchange = applyFilters;
+        document.getElementById("filter-colors").onchange = applyFilters;
+    }
+
+    function fillSelect(id, values) {
+        const select = document.getElementById(id);
+        values.forEach(v => {
+            if (v) {
+                const opt = document.createElement("option");
+                opt.value = v;
+                opt.textContent = v;
+                select.appendChild(opt);
+            }
+        });
+    }
+
+    function applyFilters() {
+        const fType = document.getElementById("filter-type").value;
+        const fDim = document.getElementById("filter-dim").value;
+        const fCol = document.getElementById("filter-colors").value;
+
+        const filtered = allRows.filter(r => {
+            const type = r.c[0]?.v || "";
+            const dim = r.c[1]?.v || "";
+            const col = r.c[2]?.v || "";
+
+            return (!fType || type === fType) &&
+                   (!fDim || dim === fDim) &&
+                   (!fCol || col === fCol);
+        });
+
+        renderTable(filtered);
+    }
+
+    function renderTable(rows) {
+        const tbody = document.querySelector("#tabella-amici tbody");
+        tbody.innerHTML = "";
+
+        rows.forEach(r => {
+            const type = r.c[0]?.v || "";
+            const dim = r.c[1]?.v || "";
+            const colors = r.c[2]?.v || "";
+            const price = r.c[3]?.v || "";
+            const date = r.c[4]?.v || "";
+            const img = r.c[5]?.v || "";
+
+            const nome = `${dim} ${type} ${colors}`;
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${nome}</td>
+                <td>${type}</td>
+                <td>${dim}</td>
+                <td>${colors}</td>
+                <td>${price}</td>
+                <td>${date}</td>
+                <td>${img ? `<img src="${img}">` : ""}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+</script>
 
 </body>
 </html>
