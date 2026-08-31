@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contatti</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contatti - Charly's Little Friends</title>
 </head>
 <body>
     <header>
@@ -16,15 +15,66 @@
             </ul>
         </nav>
     </header>
+
     <main>
-        <h1>I mie Contatti</h1>
-        <p>Per contattarmi, invia un'email a:</p>
-        <address>Email: info@example.com</address>
-        <p>O visita il mio sito web:</p>
-        <a href="http://example.com">example.com</a>
+        <header aria-labelledby="contact-title">
+            <h1 id="contact-title">Contattami</h1>
+            <p>
+                Ciao, sono Charly: creo amigurumi all'uncinetto fatti a mano, piccoli pupazzetti pensati per
+                regalare un sorriso. Se hai domande, richieste personalizzate o vuoi ordinare un pezzo unico,
+                scrivimi qui sotto.
+            </p>
+        </header>
+
+        <section aria-labelledby="form-title">
+            <h2 id="form-title">Modulo di contatto</h2>
+
+            <!-- Form: action lasciata vuota per decidere in seguito come gestire l'invio -->
+            <form id="contact-form" action="#" method="post" accept-charset="utf-8" aria-describedby="form-desc">
+                <p id="form-desc">Compila i campi obbligatori (*) e premi Invia. Ti risponderò il prima possibile.</p>
+
+                <fieldset>
+                    <legend>Informazioni di contatto</legend>
+
+                    <div>
+                        <label for="name">Nome e Cognome *</label><br>
+                        <input type="text" id="name" name="name" required autocomplete="name" placeholder="Es. Maria Rossi">
+                    </div>
+
+                    <div>
+                        <label for="email">Email *</label><br>
+                        <input type="email" id="email" name="email" required autocomplete="email" placeholder="esempio@dominio.com">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Messaggio</legend>
+
+                    <div>
+                        <label for="subject">Oggetto</label><br>
+                        <input type="text" id="subject" name="subject" placeholder="Es. Richiesta personalizzazione">
+                    </div>
+
+                    <div>
+                        <label for="message">Messaggio *</label><br>
+                        <textarea id="message" name="message" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
+                    </div>
+                </fieldset>
+
+                <div>
+                    <button type="submit">Invia</button>
+                    <button type="reset">Reset</button>
+                </div>
+
+                <p class="small" style="font-size:0.9rem; color:#666; margin-top:8px;">
+                    Nota: al momento il form non è collegato a un servizio di invio. Discuteremo insieme la modalità di invio (email diretta, backend, servizio esterno).
+                </p>
+            </form>
+        </section>
     </main>
+
     <footer>
-        <p>&copy; 2023 My Simple Website</p>
+        <p>&copy; <strong>Charly's Little Friends</strong> — <a href="index.html">Home</a></p>
     </footer>
 </body>
 </html>
