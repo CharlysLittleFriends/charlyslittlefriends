@@ -5,6 +5,8 @@
 header {
     width: 100%;
     padding: 20px 0;
+    background: #ff7ac5; /* fucsia pastello */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
     /* Contenitore nav */
@@ -27,7 +29,7 @@ header {
         font-weight: 600;
         text-decoration: none;
         color: #ffffff;
-        background: linear-gradient(90deg, #ff7bbd, #b36bff); /* rosa → viola */
+        background: linear-gradient(90deg, #ff4fa3, #b36bff); /* rosa → viola */
 
         transition: transform 250ms ease, box-shadow 250ms ease;
         overflow: hidden;
@@ -109,8 +111,8 @@ html, body {
 
 body {
     margin: 0;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(180deg, var(--bg), #fff);
+    font-family: system-ui, sans-serif;
+    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6), transparent 60%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.5), transparent 70%), linear-gradient(180deg, #f7f4ff 0%, #f0f4ff 40%, #e8f0ff 100%);
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -138,13 +140,16 @@ main {
 
 /* Footer */
 footer {
-    max-width: var(--max-width);
-    margin: 28px auto 0;
-    padding-top: 18px;
+    width: 100%;
+    background: #ff7ac5; /* fucsia pastello */
+    color: #ffffff;
     text-align: center;
-    color: var(--muted);
+    padding: 20px 0;
+    margin-top: 40px;
     font-size: 0.95rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
+
 
 /* ---------------------------------------------------*/
 /* ---------------      HOME        ------------------*/

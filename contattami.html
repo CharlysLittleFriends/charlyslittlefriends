@@ -1,0 +1,88 @@
+<main>
+
+    <!-- RIEPILOGO DEL PUPAZZO -->
+    <section id="item-summary" class="contact-card">
+        <h1>Contattami</h1>
+        <p id="summary-text">Caricamento dati...</p>
+    </section>
+
+    <!-- FORM CONTATTI -->
+    <section class="contact-form">
+        <h2>Scrivimi</h2>
+
+        <form id="contact-form" action="#" method="post">
+
+            <div class="form-group">
+                <label for="name">Nome *</label>
+                <input type="text" id="name" name="name" required placeholder="Es. Maria Rossi">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="esempio@dominio.com">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Messaggio *</label>
+                <textarea id="message" name="message" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="newsletter" name="newsletter" checked>
+                <label for="newsletter">Voglio sapere informazioni mensili su offerte e ultime news</label>
+            </div>
+
+            <button type="submit">Invia</button>
+            <button type="reset">Reset</button>
+
+        </form>
+    </section>
+
+</main>
+
+<script>
+    // Leggi parametri dall'URL
+    const params = new URLSearchParams(window.location.search);
+
+    const type = params.get("type");
+    const dim = params.get("dim");
+    const colors = params.get("colors");
+    const price = params.get("price");
+    const date = params.get("date");
+    const extra = params.get("extra");
+    const img = params.get("img");
+
+    const summaryText = document.getElementById("summary-text");
+
+    // Se mancano parametri → errore
+    if (!type || !dim || !colors) {
+        summaryText.textContent = "Qualcosa è andato storto: nessun pupazzetto selezionato.";
+    } else {
+        // Mostra riepilogo pupazzetto
+        summaryText.innerHTML = `
+            <strong>Hai selezionato questo pupazzetto:</strong><br><br>
+            Tipo: ${type}<br>
+            Dimensioni: ${dim}<br>
+            Colori: ${colors}<br>
+            Prezzo: ${price ?? "-"}<br>
+            Data: ${date ?? "-"}<br>
+            Note: ${extra ?? "-"}<br><br>
+            ${img ? `<img src="${img}" alt="Immagine pupazzetto" style="max-width:200px;border-radius:8px;">` : ""}
+        `;
+
+        // Precompila il messaggio nel form
+        const msg = document.getElementById("message");
+        msg.value =
+`Ciao Charly,
+vorrei informazioni su questo pupazzetto:
+
+- Tipo: ${type}
+- Dimensioni: ${dim}
+- Colori: ${colors}
+- Prezzo: ${price ?? "-"}
+- Data: ${date ?? "-"}
+- Note: ${extra ?? "-"}
+
+Grazie!`;
+    }
+</script>
