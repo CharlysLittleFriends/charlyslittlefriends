@@ -50,3 +50,508 @@ footer {
     bottom: 0;
     width: 100%;
 }
+/*---------------------*/
+/*HOME*/
+<!DOCTYPE html >
+<html lang="it" >
+<head >
+<meta charset="UTF-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<title > Amici - Vendita Pupazzetti</title >
+<link rel="stylesheet" href="styles.css" >
+
+<style >
+/* --- Hero --- */
+.hero {
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+.hero .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 2.6rem;
+    margin: 0 0 10px;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin: 0 0 20px;
+}
+
+.btn {
+    display: inline-block;
+    background: #ff6b6b;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* --- Layout home --- */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.intro {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+    .intro img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+.categories {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.category {
+    background: #f5f5f5;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* --- Featured products grid --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.product {
+    border: 1px solid #e6e6e6;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    background: #fff;
+}
+
+    .product img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .product .name {
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .product .price {
+        color: #2b8a3e;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .product .add {
+        background: #0078d4;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+/* --- Newsletter / CTA / Testimonials --- */
+.newsletter {
+    background: linear-gradient(90deg,#fff 0,#f8fbff 100%);
+    border: 1px solid #e9eef8;
+    padding: 18px;
+    border-radius: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+    .newsletter input[type="email"] {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #d0d7e6;
+        min-width: 220px;
+    }
+
+.testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.testimonial {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+/* --- Table existing --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+img.small {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    padding: 18px 0;
+    color: #666;
+    margin-top: 40px;
+}
+
+@media (max-width:600px) {
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .intro {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .newsletter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+
+/* AMICI */
+:root {
+    --bg: #fff7fb;
+    --card-bg: #fff;
+    --pink-100: #ffe6ef;
+    --pink-200: #ffd0e3;
+    --pink-300: #ffb3d1;
+    --accent: #ff6b9a;
+    --muted: #8b6b7a;
+    --text: #3b2a33;
+    --border: #f0dbe4;
+    --shadow: 0 6px 18px rgba(203, 98, 140, 0.12);
+    --radius: 12px;
+    --gap: 16px;
+    --max-width: 1100px;
+    --transition: 200ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Page base */
+* {
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.45;
+    padding: 24px;
+}
+
+/* Header / nav (simple) */
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+header nav a {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+    header nav a:hover,
+    header nav a:focus {
+        background: linear-gradient(90deg, rgba(255,107,154,0.08), rgba(255,107,154,0.04));
+        outline: none;
+        box-shadow: 0 2px 8px rgba(255,107,154,0.08);
+    }
+
+/* Page container */
+main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* Filters area */
+.filters {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 18px 0;
+    background: linear-gradient(180deg, rgba(255,230,240,0.6), rgba(255,245,248,0.6));
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+    .filters label {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-right: 6px;
+    }
+
+    .filters select {
+        appearance: none;
+        -webkit-appearance: none;
+        background: var(--card-bg);
+        border: 1px solid #f3d7e3;
+        padding: 8px 10px;
+        border-radius: 8px;
+        min-width: 160px;
+        transition: box-shadow var(--transition), transform var(--transition);
+        cursor: pointer;
+    }
+
+        .filters select:focus {
+            box-shadow: 0 6px 18px rgba(255,107,154,0.12);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+/* Cards grid wrapper */
+#cards-container {
+    margin-top: 8px;
+}
+
+/* Grid layout for cards */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--gap);
+    align-items: start;
+}
+
+/* Individual card */
+.friend-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+    /* Hover / focus effect */
+    .friend-card:hover,
+    .friend-card:focus-within {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(203,98,140,0.16);
+    }
+
+/* Image area */
+.card-image {
+    background: linear-gradient(180deg, var(--pink-100), var(--pink-200));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    min-height: 160px;
+}
+
+    .card-image img {
+        max-width: 100%;
+        max-height: 140px;
+        object-fit: contain;
+        border-radius: 10px;
+        display: block;
+        transition: transform var(--transition);
+    }
+
+.friend-card:hover .card-image img {
+    transform: scale(1.03);
+}
+
+/* Placeholder when no image */
+.card-image-placeholder {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    background: repeating-linear-gradient(45deg, rgba(255,182,203,0.06) 0 6px, transparent 6px 12px);
+    border-radius: 8px;
+}
+
+/* Content under image */
+.card-content {
+    padding: 12px 14px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    /* Title */
+    .card-content h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        color: var(--text);
+        letter-spacing: 0.2px;
+    }
+
+/* Meta list (small descriptions under title) */
+.card-meta {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+    .card-meta li {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+        .card-meta li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: 700;
+            display: inline-block;
+            width: 10px;
+            text-align: center;
+            margin-left: -6px;
+        }
+
+/* Actions row */
+.card-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+    .card-actions a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: linear-gradient(90deg,var(--accent), #ff4f7a);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 6px 18px rgba(255,107,154,0.12);
+    }
+
+        .card-actions a.secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid #ffd6e0;
+            box-shadow: none;
+        }
+
+/* Empty / no-data state */
+#cards-container p {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+    border-radius: 10px;
+    border: 1px dashed #ffd6e0;
+}
+
+/* Accessibility: focus visible */
+a:focus, button:focus, select:focus {
+    outline: 3px solid rgba(255,107,154,0.18);
+    outline-offset: 2px;
+}
+
+/* Responsive tweaks */
+@media (max-width:720px) {
+    .filters select {
+        min-width: 140px
+    }
+
+    .card-image {
+        min-height: 140px
+    }
+
+        .card-image img {
+            max-height: 120px
+        }
+}
+
+/* Optional small utility */
+.small-muted {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Footer */
+footer {
+    max-width: var(--max-width);
+    margin: 28px auto 0;
+    padding-top: 18px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
