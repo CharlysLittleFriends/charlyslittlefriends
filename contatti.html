@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
     <title>Contatti - Charly's Little Friends</title>
 </head>
 <body>
@@ -17,61 +18,73 @@
     </header>
 
     <main>
-        <header aria-labelledby="contact-title">
-            <h1 id="contact-title">Contattami</h1>
+
+        <!-- CARD: Presentazione -->
+        <section class="contact-card">
+            <h1>Contattami</h1>
             <p>
                 Ciao, sono Charly: creo amigurumi all'uncinetto fatti a mano, piccoli pupazzetti pensati per
                 regalare un sorriso. Se hai domande, richieste personalizzate o vuoi ordinare un pezzo unico,
                 scrivimi qui sotto.
             </p>
-        </header>
+        </section>
 
-        <section aria-labelledby="form-title">
-            <h2 id="form-title">Modulo di contatto</h2>
+        <!-- SEZIONE DUE COLONNE -->
+        <section class="contact-columns">
 
-            <!-- Form: action lasciata vuota per decidere in seguito come gestire l'invio -->
-            <form id="contact-form" action="#" method="post" accept-charset="utf-8" aria-describedby="form-desc">
-                <p id="form-desc">Compila i campi obbligatori (*) e premi Invia. Ti risponderò il prima possibile.</p>
+            <!-- COLONNA SINISTRA: MAPPA -->
+            <div class="contact-map">
+                <h2>Mi trovo qui</h2>
 
-                <fieldset>
-                    <legend>Informazioni di contatto</legend>
+                <!-- Google Maps embed Aosta -->
+                <iframe width="100%"
+                        height="300"
+                        style="border:0;"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2796.508932253889!2d7.315167315868948!3d45.73750297910402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4788e6f8f1f0e3c1%3A0xdea5b0e5a8b1c2d!2sAosta%2C%20AO!5e0!3m2!1sit!2sit!4v1697040000000">
+                </iframe>
 
-                    <div>
-                        <label for="name">Nome e Cognome *</label><br>
-                        <input type="text" id="name" name="name" required autocomplete="name" placeholder="Es. Maria Rossi">
+                <p>Mi trovo ad Aosta, Italia.</p>
+            </div>
+
+            <!-- COLONNA DESTRA: FORM -->
+            <div class="contact-form">
+                <h2>Scrivimi</h2>
+
+                <form id="contact-form" action="#" method="post">
+
+                    <div class="form-group">
+                        <label for="name">Nome *</label>
+                        <input type="text" id="name" name="name" required placeholder="Es. Maria Rossi">
                     </div>
 
-                    <div>
-                        <label for="email">Email *</label><br>
-                        <input type="email" id="email" name="email" required autocomplete="email" placeholder="esempio@dominio.com">
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Messaggio</legend>
-
-                    <div>
-                        <label for="subject">Oggetto</label><br>
-                        <input type="text" id="subject" name="subject" placeholder="Es. Richiesta personalizzazione">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="esempio@dominio.com">
                     </div>
 
-                    <div>
-                        <label for="message">Messaggio *</label><br>
+                    <div class="form-group">
+                        <label for="message">Messaggio *</label>
                         <textarea id="message" name="message" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
                     </div>
-                </fieldset>
 
-                <div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter" checked>
+                        <label for="newsletter">Voglio sapere informazioni mensili su offerte e ultime news</label>
+                    </div>
+
                     <button type="submit">Invia</button>
                     <button type="reset">Reset</button>
-                </div>
 
-                <p class="small" style="font-size:0.9rem; color:#666; margin-top:8px;">
-                    Nota: al momento il form non è collegato a un servizio di invio. Discuteremo insieme la modalità di invio (email diretta, backend, servizio esterno).
-                </p>
-            </form>
+                </form>
+            </div>
+
         </section>
+
     </main>
+
 
     <footer>
         <p>&copy; <strong>Charly's Little Friends</strong> — <a href="index.html">Home</a></p>
