@@ -75,6 +75,9 @@ function renderCards(rows) {
         const card = document.createElement('article');
         card.className = 'friend-card';
 
+        // 🌸 ANIMAZIONE A CASCATA KAWAII 🌸
+        card.style.animationDelay = `${index * 60}ms`;
+
         // immagine
         const imgWrapper = document.createElement('div');
         imgWrapper.className = 'card-image';
@@ -128,6 +131,7 @@ function renderCards(rows) {
         grid.appendChild(card);
     });
 }
+
 
 function escapeAttr(url) {
     if (!url) return '';
