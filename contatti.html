@@ -7,15 +7,7 @@
     <title>Contatti - Charly's Little Friends</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="amici.html">Amici</a></li>
-                <li><a href="contatti.html">Contatti</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="header"></div>
 
     <main>
 
@@ -49,54 +41,14 @@
                 <p>Mi trovo ad Aosta, Italia.</p>
             </div>
 
-            <!-- COLONNA DESTRA: FORM -->
-            <div class="contact-form">
-                <h2>Scrivimi</h2>
-
-                <form action="https://api.web3forms.com/submit" method="POST">
-
-                    <!-- Web3Forms access key -->
-                    <input type="hidden" name="access_key" value="4eb5973e-d503-4db7-99be-55571dda5953">
-
-                    <!-- Nome -->
-                    <div class="form-group">
-                        <label for="name">Nome *</label>
-                        <input type="text" id="name" name="name" required placeholder="Es. Maria Rossi">
-                    </div>
-
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required placeholder="esempio@dominio.com">
-                    </div>
-
-                    <!-- Messaggio -->
-                    <div class="form-group">
-                        <label for="message">Messaggio *</label>
-                        <textarea id="message" name="message" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
-                    </div>
-
-                    <!-- Checkbox newsletter -->
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="newsletter" name="newsletter" value="Sì, voglio ricevere aggiornamenti" checked>
-                        <label for="newsletter">Voglio sapere informazioni mensili su offerte e ultime news</label>
-                    </div>
-
-                    <!-- Pulsanti -->
-                    <button type="submit">Invia</button>
-                    <button type="reset">Reset</button>
-
-                </form>
-
-            </div>
+            <div id="form"></div>
 
         </section>
 
     </main>
 
-
-    <footer>
-        <p>&copy; <strong>Charly's Little Friends</strong> — <a href="index.html">Home</a></p>
-    </footer>
+    <!-- FOOTER -->
+    <div id="footer"></div>
+    <script src="js/common.js"></script>
 </body>
 </html>
