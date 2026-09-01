@@ -6,212 +6,130 @@ let allRows = [];
 
 // Fetch e parsing robusto della risposta JSON di Google Visualization
 fetch(url)
-        .then(res => res.text())
-        .then(text => {
-            try {
-                // estrai il primo oggetto JSON valido nella risposta
-                const start = text.indexOf('{');
-                const end = text.lastIndexOf('}');
-if (start === -1 || end === -1) throw new Error('Formato risposta inatteso');
-const jsonText = text.slice(start, end + 1);
-const json = JSON.parse(jsonText);
+    .then(res => res.text())
+    .then(text => {
+        try {
+            const start = text.indexOf('{');
+            const end = text.lastIndexOf('}');
+            if (start === -1 || end === -1) throw new Error('Formato risposta inatteso');
 
-// la struttura attesa: json.table.rows
-allRows = (json.table && json.table.rows) ? json.table.rows : [];
+            const jsonText = text.slice(start, end + 1);
+            const json = JSON.parse(jsonText);
 
-populateFilters();
-renderCards(allRows);
-            } catch (err) {
-    console.error('Errore parsing JSON:', err);
-showLoadError('Errore durante il parsing dei dati.');
-            }
-        })
-        .catch(err => {
-    console.error('Errore caricamento sheet:', err);
-showLoadError('Impossibile caricare i dati al momento.');
-        });
+            allRows = (json.table && json.table.rows) ? json.table.rows : [];
+
+            // RENDO GLOBALI
+            window.allRows = allRows;
+            window.renderCards = renderCards;
+
+            // EMETTO EVENTO PER I FILTRI
+            window.dispatchEvent(new Event("googleDataReady"));
+
+            // Render iniziale (senza filtri)
+            renderCards(allRows);
+
+        } catch (err) {
+            console.error('Errore parsing JSON:', err);
+            showLoadError('Errore durante il parsing dei dati.');
+        }
+    })
+    .catch(err => {
+        console.error('Errore caricamento sheet:', err);
+        showLoadError('Impossibile caricare i dati al momento.');
+    });
 
 function showLoadError(message) {
-        const container = document.getElementById('cards-container');
-container.innerHTML = '';
-const p = document.createElement('p');
-p.textContent = message;
-container.appendChild(p);
-    }
-
-function populateFilters() {
-        const typeSet = new Set();
-const dimSet = new Set();
-const colorSet = new Set();
-
-        allRows.forEach(r => {
-            // r.c è l'array di celle; usiamo optional chaining e fallback a ""
-            const type = r?.c?.[0]?.v ?? "";
-const dim = r?.c?.[1]?.v ?? "";
-const color = r?.c?.[2]?.v ?? "";
-
-if (type) typeSet.add(type);
-if (dim) dimSet.add(dim);
-if (color) colorSet.add(color);
-        });
-
-fillSelect("filter-type", typeSet);
-fillSelect("filter-dim", dimSet);
-fillSelect("filter-colors", colorSet);
-
-document.getElementById("filter-type").onchange = applyFilters;
-document.getElementById("filter-dim").onchange = applyFilters;
-document.getElementById("filter-colors").onchange = applyFilters;
-    }
-
-function fillSelect(id, values) {
-        const select = document.getElementById(id);
-        // rimuovi eventuali opzioni aggiunte in precedenza (tranne la prima)
-        while (select.options.length > 1) select.remove(1);
-
-        Array.from(values).sort().forEach(v => {
-            if (v) {
-                const opt = document.createElement("option");
-opt.value = v;
-opt.textContent = v;
-select.appendChild(opt);
-            }
-        });
-    }
-
-function applyFilters() {
-        const fType = document.getElementById("filter-type").value;
-const fDim = document.getElementById("filter-dim").value;
-const fCol = document.getElementById("filter-colors").value;
-
-        const filtered = allRows.filter(r => {
-            const type = r?.c?.[0]?.v ?? "";
-const dim = r?.c?.[1]?.v ?? "";
-const col = r?.c?.[2]?.v ?? "";
-
-return (!fType || type === fType) &&
-(!fDim || dim === fDim) &&
-(!fCol || col === fCol);
-        });
-
-renderCards(filtered);
-    }
+    const container = document.getElementById('cards-container');
+    container.innerHTML = '';
+    const p = document.createElement('p');
+    p.textContent = message;
+    container.appendChild(p);
+}
 
 function renderCards(rows) {
-        const container = document.getElementById("cards-container");
-container.innerHTML = "";
+    const container = document.getElementById("cards-container");
+    container.innerHTML = "";
 
-if (!rows || rows.length === 0) {
-            const p = document.createElement('p');
-p.textContent = "Nessun elemento da mostrare.";
-container.appendChild(p);
-return;
+    if (!rows || rows.length === 0) {
+        const p = document.createElement('p');
+        p.textContent = "Nessun elemento da mostrare.";
+        container.appendChild(p);
+        return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+    container.appendChild(grid);
+
+    rows.forEach((r, index) => {
+        const type = r?.c?.[0]?.v ?? "";
+        const dim = r?.c?.[1]?.v ?? "";
+        const colors = r?.c?.[2]?.v ?? "";
+        const price = r?.c?.[3]?.v ?? "";
+        const date = r?.c?.[4]?.v ?? "";
+        const img = r?.c?.[5]?.v ?? "";
+        const extra = r?.c?.[6]?.v ?? "";
+
+        const nome = `${dim} ${type} ${colors}`.trim() || `Pupazzetto ${index + 1}`;
+
+        const card = document.createElement('article');
+        card.className = 'friend-card';
+
+        // immagine
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'card-image';
+        if (img) {
+            const image = document.createElement('img');
+            image.src = escapeAttr(img);
+            image.alt = nome;
+            imgWrapper.appendChild(image);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'card-image-placeholder';
+            placeholder.textContent = 'No image';
+            imgWrapper.appendChild(placeholder);
         }
+        card.appendChild(imgWrapper);
 
-// crea un wrapper per la griglia (utile per il CSS futuro)
-const grid = document.createElement('div');
-grid.className = 'cards-grid';
-container.appendChild(grid);
+        // contenuto
+        const content = document.createElement('div');
+        content.className = 'card-content';
 
-        rows.forEach((r, index) => {
-            const type = r?.c?.[0]?.v ?? "";
-const dim = r?.c?.[1]?.v ?? "";
-const colors = r?.c?.[2]?.v ?? "";
-const price = r?.c?.[3]?.v ?? "";
-const date = r?.c?.[4]?.v ?? "";
-const img = r?.c?.[5]?.v ?? "";
-const extra = r?.c?.[6]?.v ?? "";
+        const title = document.createElement('h3');
+        title.textContent = nome;
+        content.appendChild(title);
 
-const nome = `${dim} ${type} ${colors}`.trim() || `Pupazzetto ${index + 1}`;
+        const meta = document.createElement('ul');
+        meta.className = 'card-meta';
 
-const card = document.createElement('article');
-card.className = 'friend-card';
-card.setAttribute('role', 'group');
-card.setAttribute('aria-label', nome);
+        meta.innerHTML = `
+            <li>Type: ${type || '-'}</li>
+            <li>Dimensions: ${dim || '-'}</li>
+            <li>Colors: ${colors || '-'}</li>
+            <li>Price: ${price || '-'}</li>
+            <li>Date: ${date || '-'}</li>
+            ${extra ? `<li>Note: ${extra}</li>` : ""}
+        `;
 
-// immagine
-const imgWrapper = document.createElement('div');
-imgWrapper.className = 'card-image';
-if (img) {
-                const image = document.createElement('img');
-image.src = escapeAttr(img);
-image.alt = nome;
-imgWrapper.appendChild(image);
-            } else {
-                const placeholder = document.createElement('div');
-placeholder.className = 'card-image-placeholder';
-placeholder.textContent = 'No image';
-imgWrapper.appendChild(placeholder);
-            }
-card.appendChild(imgWrapper);
+        content.appendChild(meta);
 
-// contenuto
-const content = document.createElement('div');
-content.className = 'card-content';
+        const actions = document.createElement('div');
+        actions.className = 'card-actions';
 
-const title = document.createElement('h3');
-title.textContent = nome;
-content.appendChild(title);
+        const params = new URLSearchParams({ type, dim, colors, price, date, extra, img });
+        const detailsLink = document.createElement('a');
+        detailsLink.href = `contattami.html?${params.toString()}`;
+        detailsLink.textContent = 'Richiedi Disponibilità';
 
-const meta = document.createElement('ul');
-meta.className = 'card-meta';
+        actions.appendChild(detailsLink);
+        content.appendChild(actions);
 
-const liType = document.createElement('li');
-liType.textContent = `Type: ${type || '-'}`;
-meta.appendChild(liType);
+        card.appendChild(content);
+        grid.appendChild(card);
+    });
+}
 
-const liDim = document.createElement('li');
-liDim.textContent = `Dimensions: ${dim || '-'}`;
-meta.appendChild(liDim);
-
-const liColors = document.createElement('li');
-liColors.textContent = `Colors: ${colors || '-'}`;
-meta.appendChild(liColors);
-
-const liPrice = document.createElement('li');
-liPrice.textContent = `Price: ${price || '-'}`;
-meta.appendChild(liPrice);
-
-const liDate = document.createElement('li');
-liDate.textContent = `Date: ${date || '-'}`;
-meta.appendChild(liDate);
-
-if (extra) {
-                const liExtra = document.createElement('li');
-liExtra.textContent = `Note: ${extra}`;
-meta.appendChild(liExtra);
-            }
-
-content.appendChild(meta);
-
-// azioni
-const actions = document.createElement('div');
-actions.className = 'card-actions';
-
-const detailsLink = document.createElement('a');
-            const params = new URLSearchParams({
-                type,
-                dim,
-                colors,
-                price,
-                date,
-                extra,
-                img
-            });
-detailsLink.href = `contattami.html?${params.toString()}`;
-detailsLink.textContent = 'Richiedi Disponibilità';
-detailsLink.setAttribute('aria-label', `Dettagli ${nome}`);
-actions.appendChild(detailsLink);
-
-content.appendChild(actions);
-
-card.appendChild(content);
-grid.appendChild(card);
-        });
-    }
-
-// helper per sicurezza
 function escapeAttr(url) {
-        if (url === undefined || url === null) return '';
-return String(url).replace(/"/g, '%22').replace(/'/g, '%27');
-    }
+    if (!url) return '';
+    return String(url).replace(/"/g, '%22').replace(/'/g, '%27');
+}

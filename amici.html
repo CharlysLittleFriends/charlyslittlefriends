@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="js/googleIntegration.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/logoCLF.png" type="image/png">
+
     <title>Amici - Charly's Little Friends</title>
 </head>
 <body>
     <div id="header"></div>
 
     <main>
-        <h1>Lista degli Amici</h1>
-        <p>Dati caricati automaticamente da Google Sheets:</p>
+        <div class="filters-title">
+            <h2>Filtra i tuoi Amici</h2>
+            <p>Seleziona Type, Dimensions o Colors per restringere la lista.</p>
+        </div>
 
         <!-- FILTRI -->
         <div class="filters" aria-label="Filtri">
@@ -40,7 +43,14 @@
 
     <!-- FOOTER -->
     <div id="footer"></div>
-    <script src="js/common.js"></script>
 
+    <script src="js/common.js"></script>
+    <script src="js/googleIntegration.js"></script>
+    <script type="module">
+        import { initFilters } from "./js/filtersResponsive.js";
+        window.addEventListener("googleDataReady", () => {
+            initFilters(window.allRows, window.renderCards);
+        });
+    </script>
 </body>
 </html>
