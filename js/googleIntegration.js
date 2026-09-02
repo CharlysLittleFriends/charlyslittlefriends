@@ -112,16 +112,35 @@ function renderCards(rows) {
 
         var formattedDate = "-";
 
-        if (date && typeof date === "object" && date.getFullYear) {
-            // Google Date object → converti
-            var yyyy = date.getFullYear();
-            var mm = String(date.getMonth() + 1).padStart(2, "0");
-            var dd = String(date.getDate()).padStart(2, "0");
-            formattedDate = yyyy + "/" + mm + "/" + dd;
-        } else if (typeof date === "string") {
-            // stringa tipo "2026-09-02"
-            formattedDate = date.replace(/-/g, "/").slice(0, 10);
+        var formattedDate = "-";
+
+        if (date) {
+            // Caso 1: oggetto Date vero (Google Visualization)
+            if (typeof date === "object" && typeof date.getFullYear === "function") {
+                var yyyy = date.getFullYear();
+                var mm = String(date.getMonth() + 1).padStart(2, "0");
+                var dd = String(date.getDate()).padStart(2, "0");
+                formattedDate = yyyy + "/" + mm + "/" + dd;
+            }
+            // Caso 2: stringa tipo "2026-09-02"
+            else if (typeof date === "string") {
+
+                // Se è tipo "Date(2026,8,2)"
+                if (date.indexOf("Date(") === 0) {
+                    var match = date.match(/Date\((\d+),\s*(\d+),\s*(\d+)\)/);
+                    if (match) {
+                        var yyyy = match[1];
+                        var mm = String(parseInt(match[2], 10) + 1).padStart(2, "0");
+                        var dd = String(parseInt(match[3], 10)).padStart(2, "0");
+                        formattedDate = dd + "/" + mm + "/" + yyyy;
+                    }
+                } else {
+                    // classico "2026-09-02"
+                    formattedDate = date.replace(/-/g, "/").slice(0, 10);
+                }
+            }
         }
+
 
 
         birthCard.innerHTML =
@@ -134,7 +153,7 @@ function renderCards(rows) {
         priceCard.className = 'card-info-box';
 
         priceCard.innerHTML =
-            '<p><strong>Prezzo:</strong> ' + (price || '-') + '</p>';
+            '<p><strong>Adozione:</strong> ' + (price || '-') + '</p>';
 
         content.appendChild(priceCard);
 
@@ -153,7 +172,7 @@ function renderCards(rows) {
         });
 
         actions.innerHTML =
-            '<a href="contattami.html?' + params.toString() + '" class="card-button">Richiedi Disponibilità</a>';
+            '<a href="contattami.html?' + params.toString() + '" class="card-button">ADOTTAMI</a>';
 
         content.appendChild(actions);
 

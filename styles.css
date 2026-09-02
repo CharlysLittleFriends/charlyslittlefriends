@@ -561,65 +561,61 @@ footer {
 /* ---------------------------------------------------*/
 /* ---------------     AMICI        ------------------*/
 /* ---------------------------------------------------*/
-
-.filters-title {
-    text-align: center;
-    margin-bottom: 18px;
-}
-
-    .filters-title h2 {
-        margin: 0;
-        font-size: 1.4rem;
-        color: #5a2ca0;
-    }
-
-    .filters-title p {
-        margin: 6px 0 0;
-        color: #7a55c7;
-        font-size: 0.95rem;
-    }
 .filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 20px;
     background: #f8e6ff;
     padding: 16px 20px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(199,160,255,0.25);
     margin-bottom: 28px;
-    justify-content: center;
+    justify-content: flex-start; /* NON centrati */
 }
 
-    .filters label {
-        font-weight: 600;
-        color: #5a2ca0;
-        font-size: 0.95rem;
+.filter-group {
+    display: flex;
+    flex-direction: column; /* label sopra */
+    gap: 6px;
+    min-width: 160px; /* evita che si stringano troppo */
+}
+
+.filters label {
+    font-weight: 600;
+    color: #5a2ca0;
+    font-size: 0.95rem;
+}
+
+.filters select {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 2px solid #c7a0ff;
+    background: #ffffff;
+    font-size: 0.95rem;
+    color: #5a2ca0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 200ms ease;
+}
+
+    .filters select:focus {
+        border-color: #b36bff;
+        outline: none;
     }
 
-    .filters select {
-        padding: 8px 12px;
-        border-radius: 10px;
-        border: 2px solid #c7a0ff;
-        background: #ffffff;
-        font-size: 0.95rem;
-        color: #5a2ca0;
-        font-weight: 600;
-        cursor: pointer;
-        transition: border-color 200ms ease;
-    }
-
-        .filters select:focus {
-            border-color: #b36bff;
-            outline: none;
-        }
-
+/* 📱 Mobile: filtri ordinati a sinistra */
 @media (max-width: 600px) {
     .filters {
         flex-direction: column;
-        gap: 12px;
-        align-items: center;
+        align-items: flex-start; /* NON centrati */
+        gap: 14px;
+    }
+
+    .filter-group {
+        width: 100%; /* si allineano bene */
     }
 }
+
 /* GRID: 3 → 2 → 1 */
 .cards-grid {
     display: grid;
