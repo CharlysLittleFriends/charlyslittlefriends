@@ -61,30 +61,31 @@ function renderCards(rows) {
     grid.className = 'cards-grid';
     container.appendChild(grid);
 
-    rows.forEach((r, index) => {
-        const type = r?.c?.[0]?.v ?? "";
-        const dim = r?.c?.[1]?.v ?? "";
-        const colors = r?.c?.[2]?.v ?? "";
-        const price = r?.c?.[3]?.v ?? "";
-        const date = r?.c?.[4]?.v ?? "";
-        const img = r?.c?.[5]?.v ?? "";
-        const extra = r?.c?.[6]?.v ?? "";
+    rows.forEach(function (r, index) {
 
-        const nome = `${dim} ${type} ${colors}`.trim() || `Pupazzetto ${index + 1}`;
+        const type = r && r.c && r.c[0] ? r.c[0].v : "";
+        const dim = r && r.c && r.c[1] ? r.c[1].v : "";
+        const colors = r && r.c && r.c[2] ? r.c[2].v : "";
+        const price = r && r.c && r.c[3] ? r.c[3].v : "";
+        const date = r && r.c && r.c[4] ? r.c[4].v : "";
+        const img = r && r.c && r.c[5] ? r.c[5].v : "";
+        const extra = r && r.c && r.c[6] ? r.c[6].v : "";
+
+        const nome = (dim + " " + type + " " + colors).trim();
+        const nomeFinale = nome !== "" ? nome : ("Pupazzetto " + (index + 1));
 
         const card = document.createElement('article');
         card.className = 'friend-card';
+        card.style.animationDelay = (index * 60) + "ms";
 
-        // 🌸 ANIMAZIONE A CASCATA KAWAII 🌸
-        card.style.animationDelay = `${index * 60}ms`;
-
-        // immagine
+        // IMMAGINE
         const imgWrapper = document.createElement('div');
         imgWrapper.className = 'card-image';
+
         if (img) {
             const image = document.createElement('img');
             image.src = escapeAttr(img);
-            image.alt = nome;
+            image.alt = nomeFinale;
             imgWrapper.appendChild(image);
         } else {
             const placeholder = document.createElement('div');
@@ -92,46 +93,74 @@ function renderCards(rows) {
             placeholder.textContent = 'No image';
             imgWrapper.appendChild(placeholder);
         }
+
         card.appendChild(imgWrapper);
 
-        // contenuto
+        // CONTENUTO
         const content = document.createElement('div');
         content.className = 'card-content';
 
+        // NOME CENTRATO
         const title = document.createElement('h3');
-        title.textContent = nome;
+        title.className = 'card-title';
+        title.textContent = nomeFinale;
         content.appendChild(title);
 
-        const meta = document.createElement('ul');
-        meta.className = 'card-meta';
+        // DATA DI NASCITA
+        const birthCard = document.createElement('div');
+        birthCard.className = 'card-info-box';
 
-        meta.innerHTML = `
-            <li>Type: ${type || '-'}</li>
-            <li>Dimensions: ${dim || '-'}</li>
-            <li>Colors: ${colors || '-'}</li>
-            <li>Price: ${price || '-'}</li>
-            <li>Date: ${date || '-'}</li>
-            ${extra ? `<li>Note: ${extra}</li>` : ""}
-        `;
+        var formattedDate = "-";
 
-        content.appendChild(meta);
+        if (date && typeof date === "object" && date.getFullYear) {
+            // Google Date object → converti
+            var yyyy = date.getFullYear();
+            var mm = String(date.getMonth() + 1).padStart(2, "0");
+            var dd = String(date.getDate()).padStart(2, "0");
+            formattedDate = yyyy + "/" + mm + "/" + dd;
+        } else if (typeof date === "string") {
+            // stringa tipo "2026-09-02"
+            formattedDate = date.replace(/-/g, "/").slice(0, 10);
+        }
 
+
+        birthCard.innerHTML =
+            '<p><strong>Data di nascita:</strong> ' + formattedDate + '</p>';
+
+        content.appendChild(birthCard);
+
+        // PREZZO
+        const priceCard = document.createElement('div');
+        priceCard.className = 'card-info-box';
+
+        priceCard.innerHTML =
+            '<p><strong>Prezzo:</strong> ' + (price || '-') + '</p>';
+
+        content.appendChild(priceCard);
+
+        // LINK
         const actions = document.createElement('div');
         actions.className = 'card-actions';
 
-        const params = new URLSearchParams({ type, dim, colors, price, date, extra, img });
-        const detailsLink = document.createElement('a');
-        detailsLink.href = `contattami.html?${params.toString()}`;
-        detailsLink.textContent = 'Richiedi Disponibilità';
+        const params = new URLSearchParams({
+            type: type,
+            dim: dim,
+            colors: colors,
+            price: price,
+            date: date,
+            extra: extra,
+            img: img
+        });
 
-        actions.appendChild(detailsLink);
+        actions.innerHTML =
+            '<a href="contattami.html?' + params.toString() + '" class="card-button">Richiedi Disponibilità</a>';
+
         content.appendChild(actions);
 
         card.appendChild(content);
         grid.appendChild(card);
     });
 }
-
 
 function escapeAttr(url) {
     if (!url) return '';

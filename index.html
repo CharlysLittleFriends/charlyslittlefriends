@@ -9,19 +9,19 @@
     <title>Home - Charly's Little Friends</title>
 </head>
 <body>
-    <div id="header"></div>
+    <div id="header" data-active="index"></div>
 
     <!-- HERO -->
     <section class="hero" aria-label="Hero montagne" style="background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'); background-size:cover; background-position:center; padding:64px 16px; color:#fff;">
         <div class="hero-content" style="max-width:1100px; margin:0 auto; text-align:center;">
-            <h1 style="margin:0 0 12px; font-size:2.2rem;">Benvenuto nel mondo dei Pupazzetti</h1>
-            <p style="margin:0 0 18px; font-size:1.05rem;">Pupazzetti artigianali, collezioni esclusive e regali che scaldano il cuore.</p>
+            <h1 style="margin:0 0 12px; font-size:2.2rem;">Charly's Little Friends</h1>
+            <p style="margin:0 0 18px; font-size:1.05rem;">Amigurumi hand made</p>
             <a class="btn" href="amici.html" style="display:inline-block; padding:10px 16px; background:#ff6b6b; color:#fff; text-decoration:none; border-radius:6px; font-weight:600;">Charly's Little Friends</a>
         </div>
     </section>
 
     <main>
-        <div class="container" style="max-width:900px; margin:28px auto; padding:0 16px;">
+        <div style="max-width:900px; margin:28px auto; padding:0 16px;">
 
             <!-- BREVE PRESENTAZIONE -->
             <section aria-label="Presentazione" style="margin-bottom:20px; text-align:left;">
@@ -33,19 +33,19 @@
             </section>
 
             <!-- OBIETTIVI E VALORI IN CARD ROSA -->
-            <section aria-label="Obiettivi e valori" style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px;">
-                <div class="card" style="background:#ffd6e0; padding:16px; border-radius:10px; flex:1 1 260px;">
-                    <h3 style="margin:0 0 8px;">Obiettivi</h3>
-                    <ul style="margin:0; padding-left:18px;">
+            <section aria-label="Obiettivi e valori" class="home-cards">
+                <div class="home-card">
+                    <h3>Obiettivi</h3>
+                    <ul>
                         <li>Creare pupazzetti che portino gioia e conforto.</li>
                         <li>Offrire prodotti sostenibili e durevoli.</li>
                         <li>Far crescere una piccola comunità di collezionisti e appassionati.</li>
                     </ul>
                 </div>
 
-                <div class="card" style="background:#ffd6e0; padding:16px; border-radius:10px; flex:1 1 260px;">
-                    <h3 style="margin:0 0 8px;">Valori</h3>
-                    <ul style="margin:0; padding-left:18px;">
+                <div class="home-card">
+                    <h3>Valori</h3>
+                    <ul>
                         <li>Artigianalità: ogni pezzo è fatto a mano con cura.</li>
                         <li>Trasparenza: materiali e processi chiari e onesti.</li>
                         <li>Empatia: design pensati per emozionare e durare nel tempo.</li>
@@ -53,11 +53,14 @@
                 </div>
             </section>
 
+
+
         </div>
     </main>
 
     <!-- FOOTER -->
     <div id="footer"></div>
     <script src="js/common.js"></script>
+    <script src="js/selectedPage.js"></script>
 </body>
 </html>
