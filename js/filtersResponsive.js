@@ -34,9 +34,9 @@ export function initFilters(allRows, renderCards) {
             cols.add(r?.c?.[2]?.v ?? "");
         });
 
-        refillSelect(fType, types, "Tutti i Type");
-        refillSelect(fDim, dims, "Tutte le Dimensions");
-        refillSelect(fCol, cols, "Tutti i Colors");
+        refillSelect(fType, types, "Tutti");
+        refillSelect(fDim, dims, "Tutte");
+        refillSelect(fCol, cols, "Tutti");
     }
 
     function refillSelect(select, values, labelAll) {
