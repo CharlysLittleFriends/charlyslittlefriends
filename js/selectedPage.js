@@ -1,5 +1,3 @@
-// force update
-
 function activateCurrentPage() {
     const headerDiv = document.getElementById("header");
 const active = headerDiv?.dataset.active;
