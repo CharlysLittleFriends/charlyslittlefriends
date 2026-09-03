@@ -1,55 +1,37 @@
-document.addEventListener("DOMContentLoaded", () => {
+const observer = new MutationObserver(() => {
     const form = document.getElementById("contact-form");
+    if (form) {
+        attachValidation(form);
+        observer.disconnect(); // smette di osservare
+    }
+});
 
+observer.observe(document.body, { childList: true, subtree: true });
+
+function attachValidation(form) {
     form.addEventListener("submit", (e) => {
         let valid = true;
 
-        // Nome
         const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const message = document.getElementById("message");
+
         if (name.value.trim() === "") {
             showError(name, "Il nome è obbligatorio");
             valid = false;
-        } else {
-            clearError(name);
-        }
+        } else clearError(name);
 
-        // Email
-        const email = document.getElementById("email");
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.value.trim())) {
             showError(email, "Inserisci una email valida");
             valid = false;
-        } else {
-            clearError(email);
-        }
+        } else clearError(email);
 
-        // Messaggio
-        const message = document.getElementById("message");
         if (message.value.trim() === "") {
             showError(message, "Il messaggio è obbligatorio");
             valid = false;
-        } else {
-            clearError(message);
-        }
+        } else clearError(message);
 
-        if (!valid) {
-            e.preventDefault(); // blocca l'invio
-        }
+        if (!valid) e.preventDefault();
     });
-});
-
-// Funzioni per mostrare errori
-function showError(input, message) {
-    let error = input.parentElement.querySelector(".error-msg");
-    if (!error) {
-        error = document.createElement("div");
-        error.className = "error-msg";
-        input.parentElement.appendChild(error);
-    }
-    error.textContent = message;
-}
-
-function clearError(input) {
-    const error = input.parentElement.querySelector(".error-msg");
-    if (error) error.remove();
 }
