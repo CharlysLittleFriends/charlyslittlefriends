@@ -14,6 +14,6 @@ async function loadComponent(id, file) {
     }
 }
 
-loadComponent("header", "components\\header.html");
-loadComponent("footer", "components\\footer.html");
-loadComponent("form", "components\\form.html");
+loadComponent("header", "components/header.html");
+loadComponent("footer", "components/footer.html");
+loadComponent("form", "components/form.html");

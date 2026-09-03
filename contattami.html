@@ -29,7 +29,7 @@
     <script type="module">
         import { initItemSummary } from "./js/contactDetail.js";
 
-        fetch("/components/form.html")
+        fetch("./components/form.html")
             .then(res => res.text())
             .then(html => {
                 document.getElementById("form").innerHTML = html;
